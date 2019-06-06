@@ -87,7 +87,7 @@ class IndexMixin:
             row, col = key
         else:
             row = key
-            col = slice(0)
+            col = slice(None)
         if isinstance(row,INT_TYPES):
             if row < 0 or row >=  M:
                 raise IndexError('Index out of bounds')
@@ -97,14 +97,14 @@ class IndexMixin:
                     row = slice(0,row.stop)
                     #row.start = 0
                 elif row.start < 0 or row.start >= M:
-                    raise IndexError('Index out of bounds')
+                    raise IndexError(f'Row start-index out of bounds: {row.start} (required: [0, {M}))')
                 if row.stop == None:
                     row = slice(row.start,M)
                     #row.stop = M
                 elif row.stop < 0 or row.stop >= M:
-                    raise IndexError('Index out of bounds')
+                    raise IndexError(f'Row stop-index out of bounds: {row.stop} (required: [0, {M}))')
                 if  row.start >= row.stop:
-                    raise IndexError('')
+                    raise IndexError(f'Row start {row.start} >= stop {row.stop}')
         elif hasattr(row, '__len__'):
             row = np.unique(np.sort(row))
             if row[0] < 0 or row[0] >= M:
@@ -119,13 +119,13 @@ class IndexMixin:
                     col = slice(0,col.stop)
                     #col.start = 0
                 elif col.start < 0 or col.start >= N:
-                    raise IndexError('Index out of bounds')
+                    raise IndexError(f'Column start-index out of bounds: {col.start} (required: [0, {N}))')
                 if col.stop == None:
                     col = slice(col.start,N)
                 elif col.stop < 0 or col.stop >= N:
-                    raise IndexError('Index out of bounds')
+                    raise IndexError(f'Column sop-index out of bounds: {col.stop} (required: [0, {N}))')
                 if  col.start >= col.stop:
-                    raise IndexError('')
+                    raise IndexError(f'Column start {col.start} >= stop {col.stop}')
         elif hasattr(col, '__len__'):
             col = np.unique(np.sort(col))
             if col[0] < 0 or col[0] >= N:
