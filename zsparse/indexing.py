@@ -25,6 +25,7 @@ class IndexMixin:
             # m[5,:]   - self._get_row(row)
             # m[20:1000,:]  - self._get_row_slice(row)
             # m[[0,20,50,88,555],:]
+
         if isinstance(col,slice) and col==slice(None):
             if isinstance(row,INT_TYPES):
                 return self._get_row(row,col)
@@ -37,6 +38,7 @@ class IndexMixin:
             # m[:,5]
             # m[:,20:1000]
             # m[:,[0,20,50,88,555]]
+
         if isinstance(row,slice) and row==slice(None):
             if isinstance(col,INT_TYPES):
                 return self._get_col(row,col)
@@ -81,7 +83,11 @@ class IndexMixin:
         
     def _validate_indices(self,key):
         M,N = self.shape
-        row,col = key
+        if isinstance(key, tuple):
+            row, col = key
+        else:
+            row = key
+            col = slice(0)
         if isinstance(row,INT_TYPES):
             if row < 0 or row >=  M:
                 raise IndexError('Index out of bounds')
