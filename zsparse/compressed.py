@@ -27,6 +27,13 @@ class cs_matrix():
         
         elif isinstance(arg,ss.spmatrix):
             data,indices,indptr,shape = arg.data,arg.indices,arg.indptr,arg.shape
+        elif isinstance(arg, zarr.hierarchy.Group):
+            children = sorted(arg.keys())
+            expected = [ 'data', 'indices', 'indptr' ]
+            if children == expected or children == [ '%s.zarr' % name for name in expected ]:
+                data, indices, indptr = arg['data'], arg['indices'], arg['indptr']
+            else:
+                raise ValueError('Unrecognized Zarr group structure: %s' % ', '.join(children))
         else:
             raise ValueError('Invalid input')
 
