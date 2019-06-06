@@ -2,8 +2,8 @@ import zarr
 import pickle
 import os
 import numpy as np
-import sparse
 import scipy.sparse as ss
+import sparse
 from .csr import csr
 from .csc import csc
 
@@ -52,7 +52,7 @@ def load(filename):
     def load_COO(filename):
         
         with open(os.path.join(filename,'attrs.pkl'), 'rb') as f:
-            attrs = pickle.load(f) 
+            attrs = pickle.load(f)
         coords = zarr.load(os.path.join(filename,'coords.zarr'))
         
         if os.path.exists(os.path.join(filename,'data.zarr')):

@@ -7,5 +7,10 @@ setup(
   author='Dale Tovar',
   description='A library for zarr compressed sparse matricies',
   packages=find_packages(),
-  install_requires=['numpy >= 1.11.1', 'zarr >= 2.3.0', 'scipy >= 1.3.0'],
+  install_requires=[
+    'numpy >= 1.11.1',
+    'zarr >= 2.3.0',
+    'scipy >= 1.3.0',
+    'sparse >= 0.7.0'
+  ],
 )

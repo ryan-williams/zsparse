@@ -45,7 +45,6 @@ class cs_matrix():
             data_store = None
             indices_store = None
             indptr_store = None
-        
 
         #to save time
         if not all(isinstance(i, zarr.Array) for i in [data, indices, indices]):
@@ -57,26 +56,20 @@ class cs_matrix():
             self.indices = indices
             self.indptr = indptr
 
-            if not data.dtype==dtype:
-                warn('Given dtype {dtype} does not agree with dtype of the data entered {data.dtype}.')
+            if not data.dtype == dtype:
+                warn(f'Given dtype {dtype} does not agree with dtype of the data entered {data.dtype}.')
             if self.indptr.dtype.kind != 'i':
                 warn("indptr array has non-integer dtype ({})"
                  "".format(self.indptr.dtype.name), stacklevel=3)
             if self.indices.dtype.kind != 'i':
                 warn("indices array has non-integer dtype ({})"
                 "".format(self.indices.dtype.name), stacklevel=3)
-            
-            
-        
         
         if shape is not None:
             self.shape = shape
         else:
             self.shape = (len(indptr)-1,np.max(indices))
-        
-        
-        
-        
+
         # initialize info reporter
         self._info_reporter = InfoReporter(self)
         self.nnz = self.data.shape[0]
