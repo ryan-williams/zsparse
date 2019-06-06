@@ -14,17 +14,15 @@ class cs_matrix():
     def __init__(self,arg,shape=None,dtype=None, compressor='default',
                  data_chunks=None,indptr_chunks=None,store=None,
                  check_format=False):
-                
-                
+
         if isinstance(arg,tuple):
-            data,indices,indptr = arg[0],arg[1],arg[2]
+            data, indices, indptr = arg[0],arg[1],arg[2]
             if not len(indices)==len(data) and indptr[-1]==len(indices):
                 raise ValueError('matrix of type {} is not in canonical format.'.format(self.__class__))
-        
+
         elif isinstance(arg,np.ndarray) and arg.ndim == 2:
             data, indices, indptr, shape = self._from_dense(arg)
-        
-        
+
         elif isinstance(arg,ss.spmatrix):
             data,indices,indptr,shape = arg.data,arg.indices,arg.indptr,arg.shape
         elif isinstance(arg, zarr.hierarchy.Group):
@@ -68,7 +66,7 @@ class cs_matrix():
         if shape is not None:
             self.shape = shape
         else:
-            self.shape = (len(indptr)-1,np.max(indices))
+            self.shape = (len(indptr) - 1, int(np.max(indices)))
 
         # initialize info reporter
         self._info_reporter = InfoReporter(self)
