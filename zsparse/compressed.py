@@ -12,8 +12,7 @@ FORMATS = {'csr':'Compressed Sparse Row Matrix',
 class cs_matrix():
     
     def __init__(self,arg,shape=None,dtype=None, compressor='default',
-                 data_chunks=None,indptr_chunks=None,store=None,
-                 check_format=False):
+                 data_chunks=None, indptr_chunks=None, store=None, default_cols=None):
 
         if isinstance(arg,tuple):
             data, indices, indptr = arg[0],arg[1],arg[2]
@@ -66,7 +65,7 @@ class cs_matrix():
         if shape is not None:
             self.shape = shape
         else:
-            self.shape = (len(indptr) - 1, int(np.max(indices)))
+            self.shape = (len(indptr) - 1, default_cols if default_cols is not None else int(np.max(indices)))
 
         # initialize info reporter
         self._info_reporter = InfoReporter(self)
